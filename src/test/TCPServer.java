@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class TCPServer {
 	
@@ -20,10 +21,12 @@ public class TCPServer {
 			
 			InetAddress inetAddress = InetAddress.getLocalHost();
 			//String localhost = inetAddress.getHostAddress();
+			
 			//serverSocket.bind(new InetSocketAddress(localhost,5000));//원래 이렇게 가능
 			//serverSocket.bind(new InetSocketAddress(inetAddress,5000));//이렇게도 가능
 			
-			serverSocket.bind(new InetSocketAddress("0.0.0.0",4444)); //한개가 아니라서 일단 0.0.0.0으로 한다
+			serverSocket.bind(new InetSocketAddress("0.0.0.0",4545)); //여러개가 있는 경우도 있으니깐 0.0.0.0으로 한다
+											//client 에서 연결이 되면 그때 이 위에 클라이언트가 찌른 ip로 바뀜
 			
 			//xshell 127.0.0.1 4545 로 
 			
@@ -53,7 +56,7 @@ public class TCPServer {
 					int readByteCount = is.read(buffer); // blocking 
 					
 					if(readByteCount == -1) {
-						//클라이언트가 정상종료 한 경우
+						//클라이언트가 -1 return 하면 정상종료 한 경우임
 						//close() 메소드 호출
 						System.out.println("[server] closed by client");
 						break;
@@ -65,9 +68,13 @@ public class TCPServer {
 					
 					//6. 데이터 쓰기
 					os.write(data.getBytes("utf-8"));
-					
-					
+				
 				}
+				
+				
+			}
+			catch(SocketException e) {//IOException이 이미 이 기능이 있어서 socketException은 더 위에 작성 
+				System.out.println("[server] sudden close by client!");
 			}catch(IOException e) {
 				e.printStackTrace();
 			}finally {
@@ -92,7 +99,6 @@ public class TCPServer {
 			}
 			
 		}
-		
 		
 	}
 }

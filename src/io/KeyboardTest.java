@@ -13,7 +13,6 @@ public class KeyboardTest {
 		try {
 			//기반스트림(표준입력, 키보드, System.in)
 			
-			
 			//보조스트림1(주스트림)
 			//byte | byte | byte -> char 로 만들어줌
 			InputStreamReader isr = new InputStreamReader(System.in,"utf-8");

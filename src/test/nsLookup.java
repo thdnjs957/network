@@ -22,7 +22,7 @@ public class nsLookup {
 				e2.printStackTrace();
 			}
 			
-			if(hostname.equals("exit")) {
+			if(hostname.equals("exit")) {//이거는 null포인트 나서  if("exit".equals(hostname))이렇게 하는게 훨 나음
 				break;
 			}
 			
