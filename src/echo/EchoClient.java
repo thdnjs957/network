@@ -23,18 +23,20 @@ public class EchoClient {
 		// public final class -> 클래스를 상속 하지 말라는 의미
 		// 객체변수 클래스변수 static
 
-		// 1. 소켓 생성
+		// 1. Scanner 생성
 		Scanner scanner = null;
+		// 2. 소켓 생성
 		Socket socket = null;
-
+		
 		try {
 			scanner = new Scanner(System.in);
 			socket = new Socket();
-			// 2. 서버 연결
+			
+			// 3. 서버 연결
 			socket.connect(new InetSocketAddress(SERVER_IP, SERVER_PORT));
 			log("connected");
 
-			// 3. IOStream 받아오기
+			// 4. IOStream 받아오기
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 

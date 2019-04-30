@@ -13,7 +13,6 @@ public class UDPEchoClient {
 	
 	public static void main(String[] args) {
 		
-		
 
 		// 1. 소켓 생성
 		Scanner scanner = null;
