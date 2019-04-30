@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class UDPTimeClient {
 
 	private static final String SERVER_IP = "192.168.1.28";
-	private static final int SERVER_PORT = 7004;
+	private static final int SERVER_PORT = 9000;
 	
 	public static void main(String[] args) {
 		
@@ -22,7 +22,8 @@ public class UDPTimeClient {
 			scanner = new Scanner(System.in);
 			
 			while (true) {
-				
+				// 3. 키보드 입력 받기
+				System.out.print(">>");
 				String line = scanner.nextLine();
 				if ("quit".contentEquals(line)) {
 					break;
@@ -31,18 +32,17 @@ public class UDPTimeClient {
 				//4. 데이터 보내기
 				byte[] sendData = line.getBytes();
 				
-			    DatagramPacket sendPacket=new DatagramPacket(sendData,sendData.length,new InetSocketAddress(SERVER_IP,UDPEchoServer.PORT));
+			    DatagramPacket sendPacket=new DatagramPacket(sendData,sendData.length,new InetSocketAddress(SERVER_IP,UDPTimeServer.PORT));
 				socket.send(sendPacket);
 				
 				// 5. 서버로 부터 받은 데이터 읽기
-				DatagramPacket receivePacket = new DatagramPacket(new byte[UDPEchoServer.BUFFER_SIZE],UDPEchoServer.BUFFER_SIZE);
+				DatagramPacket receivePacket = new DatagramPacket(new byte[UDPTimeServer.BUFFER_SIZE],UDPTimeServer.BUFFER_SIZE);
 				socket.receive(receivePacket);
 				
-				String time = new String(receivePacket.getData(),0,receivePacket.getLength(),"UTF-8");
+				String message = new String(receivePacket.getData(),0,receivePacket.getLength(),"UTF-8");
 								
 				// 6. 서버에서 받은 시간 출력
-				System.out.println("[server]"+time);
-				
+				System.out.println("<<"+message);
 				
 			}
 
