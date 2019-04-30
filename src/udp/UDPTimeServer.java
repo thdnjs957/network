@@ -39,20 +39,14 @@ public class UDPTimeServer {
 				String time_data = format.format( new Date() );
 				
 				if("".equals(message)) {
-					
 					sendData = time_data.getBytes("UTF-8");
 					sendPacket = new DatagramPacket(sendData, sendData.length,receivePacket.getAddress(),receivePacket.getPort());
-
 					socket.send(sendPacket);
 				}
-				
 			 }
-		
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			if(socket != null && socket.isClosed()== false) {
