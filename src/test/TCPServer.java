@@ -71,7 +71,6 @@ public class TCPServer {
 				
 				}
 				
-				
 			}
 			catch(SocketException e) {//IOException이 이미 이 기능이 있어서 socketException은 더 위에 작성 
 				System.out.println("[server] sudden close by client!");

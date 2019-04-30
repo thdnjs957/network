@@ -28,7 +28,6 @@ public class EchoServer {
 				thread.start();
 			}
 			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
