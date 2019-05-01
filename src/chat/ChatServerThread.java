@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.List;
 
 import echo.EchoServer;
 
@@ -15,9 +16,11 @@ public class ChatServerThread extends Thread {
 	
 	private String nickname;
 	private Socket socket;
-
-	public ChatServerThread(Socket socket) {
+	private List<PrintWriter> pw_list = null;
+	
+	public ChatServerThread(Socket socket , List<PrintWriter> pw_list) {
 		this.socket = socket;
+		this.pw_list = pw_list;
 	}
 	
 	@Override
@@ -38,6 +41,7 @@ public class ChatServerThread extends Thread {
 					new OutputStreamWriter( socket.getOutputStream(), "utf-8"), true );
 			
 			while(true) {
+				
 				//3. 데이터 읽기 요청 처리
 				String data = br.readLine();
 				if(data == null) {

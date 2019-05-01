@@ -7,11 +7,29 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 
 public class RequestHandler extends Thread {
 	
-	private static final String DOCUMENT_ROOT = "./webapp";
+	private static String documentRoot = "./webapp";
+	
+	static {
+		//클래스가 로딩될때 여기가 실행됨 호출할때 말고
+		try {
+			documentRoot = new File(RequestHandler.class.
+							getProtectionDomain().getCodeSource().
+							getLocation().toURI()).getPath();
+			
+			documentRoot += "/webapp"; //classPath를 절대경로로 바꿈 
+			System.out.println("---->"+documentRoot);
+			
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	private Socket socket;
 	
 	public RequestHandler( Socket socket ) {
@@ -97,7 +115,7 @@ public class RequestHandler extends Thread {
 			
 		}
 		
-		File file = new File(DOCUMENT_ROOT + url);//file 객체는 파일에 대한 정보를 다룰수 있음
+		File file = new File(documentRoot + url);//file 객체는 파일에 대한 정보를 다룰수 있음
 		
 		if(file.exists() == false) {
 			//응답 예시
@@ -129,7 +147,7 @@ public class RequestHandler extends Thread {
 	
 	public void response404Error(OutputStream os,String protocol) throws IOException {
 
-		File error_file = new File(DOCUMENT_ROOT + "/error/404.html");
+		File error_file = new File(documentRoot + "/error/404.html");
 		String contentType = Files.probeContentType(error_file.toPath());
 		
 		byte[] body = Files.readAllBytes(error_file.toPath());
@@ -142,7 +160,7 @@ public class RequestHandler extends Thread {
 	
 	public void response400Error(OutputStream os,String protocol) throws IOException {
 
-		File error_file = new File(DOCUMENT_ROOT + "/error/400.html");
+		File error_file = new File(documentRoot + "/error/400.html");
 		String contentType = Files.probeContentType(error_file.toPath());
 		
 		byte[] body = Files.readAllBytes(error_file.toPath());
